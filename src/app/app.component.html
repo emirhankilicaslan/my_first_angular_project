@@ -2,19 +2,25 @@
   <div class="row">
     <div class="col-5 mx-auto">
       <h3 class="bg-primary text-white p-3">
-        To Do List
+        {{getName()}}'s To Do List
       </h3>
-      <div class="input-group">
-        <input type="text" class="form-control">
-        <div class="input-group-append">
-          <button class="btn btn-outline-primary">Add</button>
-        </div>
+      <div class="input-group mb-3">
+        <input [(ngModel)]="inputText"
+        type="text" class="form-control" 
+        (keyup.enter) = "addItem();">
+        <button [class]="getBtnClasses()" class="btn" (click)="addItem();">Add</button>
       </div>
-      <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" id="displayAll">
+        <div class="form-check mb-3">
+        <input type="checkbox" [(ngModel)] = "displayAll" class="form-check-input" id="displayAll">
         <label for="displayAll" class="form-check-label">Display All</label>
       </div>
-      <table class="table table-striped table-bordered">
+      <div class="my-2" *ngIf="displayCount() > 1">
+        {{ displayCount() }} missions done.
+      </div>
+      <div class="my-2" *ngIf="displayCount() < 2 ">
+        {{ displayCount() }} mission done.
+      </div>
+      <table class="table table-striped table-bordered" *ngIf= "getItems().length > 0">
         <thead>
           <tr>
             <th></th>
@@ -23,13 +29,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>{{ getItems() }}</td>
-            <td>{{ title }}</td>
+          <tr *ngFor="let item of getItems(); let i = index;">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.description }}</td>
+            <td>
+              <!-- <div *ngIf="item.action">Yapildi</div>
+              <div *ngIf="!item.action">Yapilacak</div> -->
+              <div [ngSwitch]="item.action">
+                <div *ngSwitchCase=true >Yapildi</div>
+                <div *ngSwitchDefault>Yapilacak</div>
+              </div>
+            </td>
+            <td><input type="checkbox" [(ngModel)]="item.action"></td>
           </tr>
         </tbody>
       </table>
+      <div class="alert alert-warning" *ngIf="getItems().length == 0">
+        Yapilacak is yok.
+      </div>
     </div>
   </div>
 </div>

@@ -1,27 +1,16 @@
+import {ToDoItem} from './todoItem';
+
 export class Model{
     user: string;
-    items: any;
+    items: ToDoItem[];
 
     constructor(){
-        this.user = "Emirhan";
+        this.user = "Emirhan"; //Added for the to-do list that changes depending on the user.
         this.items = [
-            new ToDoItem("Spor", false),
-            new ToDoItem("Spor", false),
-            new ToDoItem("Spor", false),
+            {description: "Spor", action: false},
+            {description: "Staj", action: true},
+            {description: "Halisaha", action: true},
+            {description: "Projeyi tamamla", action: false}
         ];
-    }
-  public getName():string{
-    return this.user;
-  }
-  
-}
-
-export class ToDoItem{
-    description: string;
-    action: boolean;    
-
-    constructor(description:string, action:boolean){
-        this.description = description;
-        this.action = action;
     }
 }
